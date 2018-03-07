@@ -1,0 +1,25 @@
+{
+    "name": "this7/sql",
+    "description": "this7 PHP framework router class.",
+    "license": "MIT",
+    "homepage": "https://github.com/this7/sql",
+    "keywords": [
+        "router",
+        "php-router",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "Yan Tianzeng",
+            "email": "qinuoyun@qq.com",
+            "homepage": "http://www.ub-u7.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "this7/config": "dev-master"
+    },
+    "autoload": {
+        "psr-4": { "this7\\sql\\": "src" }
+    }
+}

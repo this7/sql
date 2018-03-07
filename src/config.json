@@ -1,0 +1,52 @@
+{
+    "defer":
+    {
+        "name": "延时加载",
+        "value": false
+    },
+    "driver":
+    {
+        "name": "数据驱动",
+        "value": "mysql"
+    },
+    "prefix":
+    {
+        "name": "表前缀",
+        "value": "ub_"
+    },
+    "table":
+    {
+        "name": "数据表",
+        "value": "cAuth"
+    },
+    "host":
+    {
+        "name": "主机",
+        "value": "localhost"
+    },
+    "user":
+    {
+        "name": "用户名",
+        "value": "root"
+    },
+    "password":
+    {
+        "name": "密码",
+        "value": "wxc1cda73f55919822"
+    },
+    "char":
+    {
+        "name": "编码",
+        "value": "utf8mb4"
+    },
+    "port":
+    {
+        "name": "端口号",
+        "value": 3306
+    },
+    "versions":
+    {
+        "name": "版本号",
+        "value": "1.0"
+    }
+}
