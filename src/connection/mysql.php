@@ -4,7 +4,7 @@
  * @E-mail: admin@ubphp.com
  * @Date:   2016-09-08 14:07:46
  * @Last Modified by:   else
- * @Last Modified time: 2018-01-11 11:13:51
+ * @Last Modified time: 2018-06-22 09:58:53
  * Copyright (c) 2014-2016, UBPHP All Rights Reserved.
  */
 namespace this7\sql\connection;
@@ -45,6 +45,30 @@ class mysql extends connection {
             DEBUG || F($name, $data, 'temp/field');
         }
         return $this->fields = $data;
+    }
+
+    /**
+     * 获取字段信息
+     * @Author   Sean       Yan
+     * @DateTime 2018-06-22
+     * @return   [type]     [description]
+     */
+    public function getFieldInfo() {
+        $name = C('sql', "table") . '.' . $this->table;
+        $sql  = "Select COLUMN_NAME ub_field, DATA_TYPE ub_type, COLUMN_COMMENT ub_explain
+from INFORMATION_SCHEMA.COLUMNS
+Where table_name = '" . $this->table . "' # #表名
+AND table_schema = '" . C('sql', "table") . "' # #数据库名";
+        if (!$result = $this->query($sql)) {
+            return FALSE;
+        }
+        $data = [];
+        foreach ($result as $key => $res) {
+            $data[$key]['field']   = $res['ub_field'];
+            $data[$key]['type']    = $res['ub_type'];
+            $data[$key]['explain'] = empty($res['ub_explain']) ? "-" : $res['ub_explain'];
+        }
+        return $data;
     }
 
     /**

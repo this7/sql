@@ -12,27 +12,27 @@
     "prefix":
     {
         "name": "表前缀",
-        "value": "ub_"
+        "value": ""
     },
     "table":
     {
         "name": "数据表",
-        "value": "cAuth"
+        "value": ""
     },
     "host":
     {
         "name": "主机",
-        "value": "localhost"
+        "value": ""
     },
     "user":
     {
         "name": "用户名",
-        "value": "root"
+        "value": ""
     },
     "password":
     {
         "name": "密码",
-        "value": "wxc1cda73f55919822"
+        "value": ""
     },
     "char":
     {
