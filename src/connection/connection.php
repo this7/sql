@@ -3,8 +3,8 @@
  * @Author: isglory
  * @E-mail: admin@ubphp.com
  * @Date:   2016-09-08 13:49:27
- * @Last Modified by:   qinuoyun
- * @Last Modified time: 2018-02-04 22:38:00
+ * @Last Modified by:   else
+ * @Last Modified time: 2018-07-10 13:57:06
  * Copyright (c) 2014-2016, UBPHP All Rights Reserved.
  */
 namespace this7\sql\connection;
@@ -21,6 +21,8 @@ abstract class connection {
     protected $query;
     //模型类
     public $model;
+    //语句变量
+    public $sql;
     //数据库配置
     protected $config;
     //数据
@@ -160,6 +162,7 @@ abstract class connection {
      * @throws \Exception
      */
     public function execute($sql, array $params = []) {
+        $this->sql = $sql;
         $this->query->build()->reset();
         #准备sql
         $sth = $this->getLink(true)->prepare($sql);
@@ -197,6 +200,7 @@ abstract class connection {
      * @throws \Exception
      */
     public function query($sql, array $params = []) {
+        $this->sql = $sql;
         $this->query->build()->reset();
         #准备sql
         $sth = $this->getLink(false)->prepare($sql);
