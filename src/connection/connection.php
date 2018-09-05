@@ -4,7 +4,7 @@
  * @E-mail: admin@ubphp.com
  * @Date:   2016-09-08 13:49:27
  * @Last Modified by:   else
- * @Last Modified time: 2018-07-10 13:57:06
+ * @Last Modified time: 2018-09-04 14:41:01
  * Copyright (c) 2014-2016, UBPHP All Rights Reserved.
  */
 namespace this7\sql\connection;
@@ -162,7 +162,8 @@ abstract class connection {
      * @throws \Exception
      */
     public function execute($sql, array $params = []) {
-        $this->sql = $sql;
+        $start_time = microtime(true);
+        $this->sql  = $sql;
         $this->query->build()->reset();
         #准备sql
         $sth = $this->getLink(true)->prepare($sql);
@@ -177,7 +178,12 @@ abstract class connection {
             $this->affectedRow = $sth->rowCount();
             #记录查询日志
             if (DEBUG) {
-                self::$queryLog[] = $sql . var_export($params, true);
+                $end_time         = microtime(true);
+                self::$queryLog[] = array(
+                    'sql'  => sql_processing($sql, $params),
+                    'data' => '[]',
+                    'time' => (microtime(true) - $start_time) . 'μs',
+                );
             }
             return true;
         } catch (Exception $e) {
@@ -200,7 +206,8 @@ abstract class connection {
      * @throws \Exception
      */
     public function query($sql, array $params = []) {
-        $this->sql = $sql;
+        $start_time = microtime(true);
+        $this->sql  = $sql;
         $this->query->build()->reset();
         #准备sql
         $sth = $this->getLink(false)->prepare($sql);
@@ -215,11 +222,18 @@ abstract class connection {
             #执行查询
             $sth->execute();
             $this->affectedRow = $sth->rowCount();
+            $data              = $sth->fetchAll() ?: [];
             #记录日志
             if (DEBUG) {
-                self::$queryLog[] = $sql . var_export($params, true);
+                $end_time = microtime(true);
+
+                self::$queryLog[] = array(
+                    'sql'  => sql_processing($sql, $params),
+                    'data' => to_json($data),
+                    'time' => ($end_time - $start_time) . 'μs',
+                );
             }
-            return $sth->fetchAll() ?: [];
+            return $data;
         } catch (Exception $e) {
             if (DEBUG) {
                 $error = $sth->errorInfo();
@@ -296,6 +310,15 @@ abstract class connection {
     //获得查询SQL语句
     public function getQueryLog() {
         return self::$queryLog;
+    }
+
+    public function getDriveInfo($value = '') {
+        return array(
+            'name'    => $this->link->getAttribute(PDO::ATTR_DRIVER_NAME),
+            'version' => $this->link->getAttribute(PDO::ATTR_SERVER_VERSION),
+            'client'  => $this->link->getAttribute(PDO::ATTR_CLIENT_VERSION),
+
+        );
     }
 
     public function __call($method, $arguments) {
