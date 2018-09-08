@@ -3,8 +3,8 @@
  * @Author: isglory
  * @E-mail: admin@ubphp.com
  * @Date:   2016-09-08 13:58:10
- * @Last Modified by:   qinuoyun
- * @Last Modified time: 2018-02-04 20:35:37
+ * @Last Modified by:   else
+ * @Last Modified time: 2018-09-06 16:31:31
  * Copyright (c) 2014-2016, UBPHP All Rights Reserved.
  */
 namespace this7\sql\bin;
@@ -168,8 +168,7 @@ class query {
         #移除非法字段
         $data = $this->connection->filterTableField($data);
         if (empty($data)) {
-            // throw new Exception('没有数据用于插入,请检查字段名');
-
+            throw new Exception('没有数据用于插入,请检查字段名');
         }
         foreach ($data as $k => $v) {
             $this->build()->bindExpression('field', "`$k`");
