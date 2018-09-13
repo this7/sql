@@ -3,8 +3,8 @@
  * @Author: isglory
  * @E-mail: admin@ubphp.com
  * @Date:   2016-09-08 13:49:27
- * @Last Modified by:   else
- * @Last Modified time: 2018-09-04 14:41:01
+ * @Last Modified by:   qinuoyun
+ * @Last Modified time: 2018-09-13 14:21:43
  * Copyright (c) 2014-2016, UBPHP All Rights Reserved.
  */
 namespace this7\sql\connection;
@@ -121,11 +121,15 @@ abstract class connection {
         if (isset($links[$name])) {
             return $this->link = $links[$name];
         }
-        $dns          = $this->getDns();
-        $links[$name] = new PDO($dns, $this->config['user'], $this->config['password'], [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"]);
-        $links[$name]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->execute("SET sql_mode = ''");
-        return $this->link = $links[$name];
+        try {
+            $dns          = $this->getDns();
+            $links[$name] = new PDO($dns, $this->config['user'], $this->config['password'], [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"]);
+            $links[$name]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->execute("SET sql_mode = ''");
+            return $this->link = $links[$name];
+        } catch (Exception $e) {
+            errorout($e);
+        }
     }
 
     public function getInsertId() {

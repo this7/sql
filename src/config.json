@@ -4,6 +4,11 @@
         "name": "延时加载",
         "value": false
     },
+    "open":
+    {
+        "name": "是否打开数据库",
+        "value": false
+    },
     "driver":
     {
         "name": "数据驱动",
