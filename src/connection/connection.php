@@ -4,7 +4,7 @@
  * @E-mail: admin@ubphp.com
  * @Date:   2016-09-08 13:49:27
  * @Last Modified by:   qinuoyun
- * @Last Modified time: 2018-09-13 14:21:43
+ * @Last Modified time: 2018-09-18 16:32:32
  * Copyright (c) 2014-2016, UBPHP All Rights Reserved.
  */
 namespace this7\sql\connection;
@@ -128,7 +128,7 @@ abstract class connection {
             $this->execute("SET sql_mode = ''");
             return $this->link = $links[$name];
         } catch (Exception $e) {
-            errorout($e);
+            ERRORCODE($e);
         }
     }
 
@@ -191,12 +191,8 @@ abstract class connection {
             }
             return true;
         } catch (Exception $e) {
-            if (DEBUG) {
-                $error = $sth->errorInfo();
-                throw new Exception($sql . " ;BindParams:" . var_export($params, true) . implode(';', $error));
-            } else {
-                return false;
-            }
+            $error = $sth->errorInfo();
+            throw new Exception($sql . " ;BindParams:" . var_export($params, true) . implode(';', $error));
         }
     }
 
@@ -239,12 +235,8 @@ abstract class connection {
             }
             return $data;
         } catch (Exception $e) {
-            if (DEBUG) {
-                $error = $sth->errorInfo();
-                throw new Exception($sql . " ;BindParams:" . var_export($params, true) . implode(';', $error));
-            } else {
-                return false;
-            }
+            $error = $sth->errorInfo();
+            throw new Exception($sql . " ;BindParams:" . var_export($params, true) . implode(';', $error));
         }
     }
 
